@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="love.css" />
+    <title>Love Calculator</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="heading">
+        <h1>Love ♥ Calculator</h1>
+        <h4>Get Your Own Love Result Instantly*</h4>
+      </div>
+
+      <div class="maincontent">
+        <div>
+          <!-- Your name Inputfield -->
+          <label for="yourname">*Your Name</label><br />
+          <input
+            type="text"
+            id="f_name"
+            placeholder="Enter Your Name"
+            spellcheck="false"
+            maxlength="30"
+            required
+          />
+        </div>
+        <div>
+          <!-- His/Her name Inputfield -->
+          <label for="theirname">*His/Her Name</label><br />
+          <input
+            type="text"
+            id="s_name"
+            placeholder="Enter His/Her Name"
+            spellcheck="false"
+            maxlength="30"
+            required
+          />
+        </div>
+      </div>
+      <button type="submit" id="getPosts">❤ CALCULATE ❤</button>
+
+      <div class="result">
+        <h2>Result</h2>
+        <div class="divider"></div>
+        <p id="yourlovescoreis"></p>
+        <h1 id="score"></h1>
+        <p id="loveinfo"></p>
+        <p
+          id="reload"
+          style="
+            cursor: pointer;
+            display: none;
+            margin-top: 30px;
+            font-weight: 700;
+          "
+          onClick="window.location.reload();"
+        >
+          ↺ Re Calculate
+        </p>
+      </div>
+    </div>
+    <div class="footer">
+      <p style="color: #000">
+        Made With <span style="color: #ff4136; font-size: 25px">❤</span> By
+        <a
+          style="text-decoration: none; font-weight: bold; color: #ff4136"
+          target="_blank"
+          href="https://github.com/ESWARVETLA-19"
+          >Eswar Vetla</a
+        >
+        <br />
+        <small>*Fun Purpose Only</small>
+      </p>
+    </div>
+
+    <script type="text/javascript">
+      document.getElementById("getPosts").addEventListener("click", getPosts);
+      function getPosts() {
+        let fname = document.getElementById("f_name").value;
+        let sname = document.getElementById("s_name").value;
+        reloadBtn = document.getElementById("reload");
+        const url =
+          "https://love-calculator.p.rapidapi.com/getPercentage?sname=" +
+          `${sname}` +
+          "&" +
+          "fname=" +
+          `${fname}`;
+        const options = {
+          method: "GET",
+          headers: {
+            "X-RapidAPI-Key":
+              "c012ccc51emshfbcc95305cdffd7p1c052ejsn4f4521cac371",
+            "X-RapidAPI-Host": "love-calculator.p.rapidapi.com",
+          },
+        };
+
+        fetch(url, options)
+          .then((res) => res.json())
+          .then((data) => {
+            let output = ``;
+            output += `
+                      <div class="container">
+                        <h3>${data.percentage}%</h3>
+                        </div>
+                      `;
+            let result = `
+            `;
+            let urresult = `<h3>your love score is</h3>`;
+            result += `<h2>${data.result}</h2>`;
+            reloadBtn.style.display = "block";
+            document.getElementById("score").innerHTML = output;
+            document.getElementById("loveinfo").innerHTML = result;
+            document.getElementById("yourlovescoreis").innerHTML = urresult;
+          })
+          .catch((err) => console.log(err));
+      }
+    </script>
+  </body>
+</html>
